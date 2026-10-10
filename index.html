@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090d1b">
+<meta name="description" content="ZOGGY AI - Your Personal AI Assistant">
+<title>ZOGGY AI - Your AI Assistant</title>
+
+<style>
+:root{
+  --bg:#090d1b;
+  --panel:#11182b;
+  --card:#171f35;
+  --text:#f5f7ff;
+  --muted:#a4aec8;
+  --accent:#7c5cff;
+  --accent2:#00d9ff;
+  --border:#293451;
+}
+body.light{
+  --bg:#f3f5fc;
+  --panel:#ffffff;
+  --card:#ffffff;
+  --text:#172039;
+  --muted:#65708a;
+  --border:#dce2f0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Bengali",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:1000px;margin:auto;padding:16px}
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 0 20px;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{
+  width:45px;height:45px;border-radius:15px;
+  display:grid;place-items:center;
+  font-size:25px;font-weight:bold;
+  color:white;
+  background:linear-gradient(135deg,#7c5cff,#00d9ff);
+  box-shadow:0 0 24px #7c5cff55;
+}
+.brand h1{font-size:21px;margin:0}
+.brand small{display:block;color:var(--muted);margin-top:4px}
+.icon-btn,.secondary{
+  background:var(--card);color:var(--text);
+  border:1px solid var(--border);
+  border-radius:12px;padding:10px 13px;
+}
+.hero{
+  padding:25px 18px;
+  border:1px solid var(--border);
+  border-radius:22px;
+  background:linear-gradient(135deg,#211747,#10263d);
+  margin-bottom:20px;
+}
+.hero h2{font-size:27px;margin:0 0 12px}
+.hero p{color:#d3dcf5;line-height:1.7;margin:0}
+.badge{
+  display:inline-block;padding:6px 10px;
+  background:#ffffff18;border-radius:20px;
+  font-size:12px;margin-bottom:12px;
+}
+.section-title{font-size:18px;margin:23px 0 12px}
+.tools{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.tool{
+  text-align:left;padding:15px 12px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;color:var(--text);
+  min-height:100px;
+}
+.tool:active{transform:scale(.98)}
+.tool .emoji{font-size:25px;display:block;margin-bottom:9px}
+.tool strong{font-size:14px;display:block}
+.tool small{color:var(--muted);display:block;margin-top:6px;line-height:1.5}
+.chat-box{
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:18px;overflow:hidden;
+}
+.chat-head{
+  padding:14px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.status{font-size:12px;color:#27d9a1}
+.messages{
+  min-height:180px;max-height:350px;overflow-y:auto;
+  padding:14px;
+}
+.welcome{text-align:center;padding:25px 5px;color:var(--muted);line-height:1.8}
+.msg{
+  max-width:90%;padding:11px 13px;border-radius:14px;
+  margin:10px 0;line-height:1.6;white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.msg.user{margin-left:auto;background:#6248d9;color:white}
+.msg.bot{background:var(--card);border:1px solid var(--border)}
+.composer{padding:12px;border-top:1px solid var(--border)}
+.composer textarea{
+  width:100%;resize:vertical;min-height:65px;max-height:180px;
+  border:1px solid var(--border);border-radius:12px;
+  padding:12px;background:var(--bg);color:var(--text);
+  outline:none;
+}
+.composer-row{display:flex;gap:8px;margin-top:9px}
+.primary{
+  border:0;border-radius:12px;padding:12px 17px;
+  color:white;font-weight:bold;
+  background:linear-gradient(135deg,#7c5cff,#5541cf);
+}
+.composer-row .primary{flex:1}
+.language{
+  background:var(--card);color:var(--text);
+  border:1px solid var(--border);border-radius:10px;padding:8px;
+}
+.panel{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:16px;padding:16px;margin-top:14px;
+}
+.panel p{color:var(--muted);line-height:1.7;font-size:14px}
+.panel input,.panel textarea{
+  width:100%;padding:12px;margin:8px 0;
+  background:var(--bg);color:var(--text);
+  border:1px solid var(--border);border-radius:10px;
+}
+.hidden{display:none}
+.notice{
+  color:var(--muted);font-size:12px;
+  line-height:1.7;margin-top:16px;
+}
+footer{text-align:center;padding:28px 0;color:var(--muted);font-size:12px}
+@media(min-width:650px){
+  .tools{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .app{padding:24px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+  <div class="brand">
+    <div class="logo">Z</div>
+    <div>
+      <h1>ZOGGY AI</h1>
+      <small>Your Personal AI Assistant</small>
+    </div>
+  </div>
+  <button class="icon-btn" id="themeBtn" aria-label="Change theme">🌙</button>
+</header>
+
+<section class="hero">
+  <span class="badge">✨ YOUR AI WORKSPACE</span>
+  <h2 id="greeting">হ্যালো! আমি ZOGGY AI 🤖</h2>
+  <p>প্রশ্ন করো, নতুন কিছু শেখো, কোড লেখো এবং তোমার সৃজনশীল আইডিয়াকে বাস্তবে রূপ দেওয়ার পরিকল্পনা করো।</p>
+</section>
+
+<h3 class="section-title">🚀 AI Tools</h3>
+
+<div class="tools">
+  <button class="tool" data-tool="chat">
+    <span class="emoji">💬</span>
+    <strong>AI Chat</strong>
+    <small>প্রশ্ন ও উত্তর</small>
+  </button>
+
+  <button class="tool" data-tool="image">
+    <span class="emoji">🎨</span>
+    <strong>AI Image Studio</strong>
+    <small>ছবি তৈরির স্টুডিও</small>
+  </button>
+
+  <button class="tool" data-tool="video">
+    <span class="emoji">🎬</span>
+    <strong>AI Video Studio</strong>
+    <small>ভিডিও তৈরির পরিকল্পনা</small>
+  </button>
+
+  <button class="tool" data-tool="voice">
+    <span class="emoji">🎤</span>
+    <strong>Voice AI</strong>
+    <small>কথা বলা ও শোনা</small>
+  </button>
+
+  <button class="tool" data-tool="vision">
+    <span class="emoji">👁️</span>
+    <strong>AI Vision</strong>
+    <small>ছবি বোঝার টুল</small>
+  </button>
+
+  <button class="tool" data-tool="coding">
+    <span class="emoji">💻</span>
+    <strong>Coding Lab</strong>
+    <small>কোড ও ওয়েবসাইট</small>
+  </button>
+
+  <button class="tool" data-tool="study">
+    <span class="emoji">📚</span>
+    <strong>Study Assistant</strong>
+    <small>পড়াশোনা ও অনুবাদ</small>
+  </button>
+
+  <button class="tool" data-tool="game">
+    <span class="emoji">🎮</span>
+    <strong>Game Builder</strong>
+    <small>গেম তৈরির পরিকল্পনা</small>
+  </button>
+
+  <button class="tool" data-tool="document">
+    <span class="emoji">📄</span>
+    <strong>Document AI</strong>
+    <small>লেখা ও ডকুমেন্ট</small>
+  </button>
+
+  <button class="tool" data-tool="search">
+    <span class="emoji">🌐</span>
+    <strong>Web Search</strong>
+    <small>ইন্টারনেটে তথ্য খোঁজা</small>
+  </button>
+
+  <button class="tool" data-tool="memory">
+    <span class="emoji">🧠</span>
+    <strong>AI Memory</strong>
+    <small>চ্যাট সংরক্ষণ</small>
+  </button>
+
+  <button class="tool" data-tool="settings">
+    <span class="emoji">⚙️</span>
+    <strong>Settings</strong>
+    <small>ভাষা ও গোপনীয়তা</small>
+  </button>
+</div>
+
+<h3 class="section-title">💬 কথা বলো ZOGGY AI-এর সঙ্গে</h3>
+
+<section class="chat-box" id="chat">
+  <div class="chat-head">
+    <strong>🤖 ZOGGY Assistant</strong>
+    <span class="status">● UI Ready</span>
+  </div>
+
+  <div class="messages" id="messages" aria-live="polite">
+    <div class="welcome" id="welcome">
+      👋 স্বাগতম!<br>
+      নিচে তোমার প্রশ্ন লেখো।<br>
+      এই প্রথম সংস্করণে চ্যাটের ইন্টারফেস প্রস্তুত।
+    </div>
+  </div>
+
+  <div class="composer">
+    <textarea id="prompt" placeholder="এখানে তোমার প্রশ্ন লেখো..." aria-label="Your message"></textarea>
+    <div class="composer-row">
+      <select id="language" class="language" aria-label="Language">
+        <option value="bn">বাংলা</option>
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+      </select>
+      <button class="primary" id="sendBtn">Send ➤</button>
+    </div>
+  </div>
+</section>
+
+<section class="panel hidden" id="toolPanel">
+  <h3 id="panelTitle">AI Tool</h3>
+  <p id="panelDescription"></p>
+  <label for="toolPrompt">তোমার নির্দেশনা</label>
+  <textarea id="toolPrompt" placeholder="তুমি কী তৈরি করতে চাও?"></textarea>
+  <button class="primary" id="toolSubmit">নির্দেশনা ব্যবহার করো</button>
+  <button class="secondary" id="closePanel">বন্ধ করো</button>
+  <p id="toolResult"></p>
+</section>
+
+<section class="panel">
+  <h3>🔞 নিরাপত্তা ও বয়সসংক্রান্ত নিয়ম</h3>
+  <p>১৮ বছরের কম বয়সীদের জন্য যৌন বা পর্নোগ্রাফিক ছবি তৈরির সুবিধা থাকবে বয়স যাচাই ও উপযুক্ত নিরাপত্তাব্যবস্থা বাস্তবায়ন করতে হবে। এই নিয়ম শুধু লেখা দিয়ে কার্যকর হয় না; আসল ছবি তৈরির পরিষেবাতেও নিরাপত্তা পরীক্ষা প্রয়োজন।</p>
+</section>
+
+<section class="panel">
+  <h3>🔐 Privacy Center</h3>
+  <p>এই ডেমোতে চ্যাট তোমার ব্রাউজারের স্থানীয় স্টোরেজে রাখা যেতে পারে। সংবেদনশীল তথ্য লিখবে না। API Key কখনো এই HTML ফাইলে রাখবে না।</p>
+  <button class="secondary" id="clearBtn">🗑️ চ্যাট মুছে ফেলো</button>
+  <button class="secondary" id="exportBtn">📥 চ্যাট ডাউনলোড</button>
+</section>
+
+<p class="notice">
+  ⚠️ বর্তমান সংস্করণটি ফ্রন্টএন্ড ডেমো। AI উত্তর, ইমেজ জেনারেশন,
+  ভিডিও তৈরি, ওয়েব সার্চ ও অন্যান্য অনলাইন AI পরিষেবা চালাতে
+  নিরাপদ ব্যাকএন্ড এবং সংশ্লিষ্ট পরিষেবার API যুক্ত করতে হবে।
+</p>
+
+<footer>© 2026 ZOGGY AI · Built for creativity ✨</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+const translations = {
+  bn: {
+    greeting: "হ্যালো! আমি ZOGGY AI 🤖",
+    placeholder: "এখানে তোমার প্রশ্ন লেখো...",
+    empty: "আগে একটি প্রশ্ন লেখো।",
+    demo: "তোমার বার্তা এই ডেমোতে দেখানো হয়েছে। আসল AI উত্তর পেতে নিরাপদ সার্ভারের সঙ্গে AI API যুক্ত করতে হবে।",
+    title: "AI টুল",
+    prompt: "তুমি কী তৈরি করতে চাও?",
+    copied: "তোমার নির্দেশনা চ্যাটে যোগ করা হয়েছে।"
+  },
+  en: {
+    greeting: "Hello! I'm ZOGGY AI 🤖",
+    placeholder: "Type your question here...",
+    empty: "Please type a question first.",
+    demo: "Your message appears in this demo. Connect a secure backend and AI API to receive real AI responses.",
+    title: "AI Tool",
+    prompt: "What would you like to create?",
+    copied: "Your prompt has been added to the chat."
+  },
+  hi: {
+    greeting: "नमस्ते! मैं ZOG
